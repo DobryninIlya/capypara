@@ -6,7 +6,7 @@ import com.example.capybara.R
 
 class SharedPreferenceManager(context: Context) {
 
-    private val UID_KEY = "uid"
+    private val uidKey = context.getString(R.string.preference_uid_key)
 
     private val sharedPreference: SharedPreferences = context.getSharedPreferences(
         context.getString(R.string.preference_file_key),
@@ -14,10 +14,10 @@ class SharedPreferenceManager(context: Context) {
     )
 
     fun saveUid(uid: String) =
-        sharedPreference.edit().putString(UID_KEY, uid).apply()
+        sharedPreference.edit().putString(uidKey, uid).apply()
 
     fun getUid(): String? {
-        return sharedPreference.getString(UID_KEY, "")
+        return sharedPreference.getString(uidKey, "")
     }
 
 }
