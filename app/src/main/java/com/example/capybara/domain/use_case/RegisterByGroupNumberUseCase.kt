@@ -8,6 +8,9 @@ class RegisterByGroupNumberUseCase(
     private val repository: Repository,
     private val localStorage: SharedPreferenceManager,
 ) {
+
+    class WrongGroupNumberException : Exception()
+
     fun invoke(groupNumber: Int): User {
 
         if (!repository.isValidGroupNumber(groupNumber)) {
@@ -17,6 +20,6 @@ class RegisterByGroupNumberUseCase(
         val uid: String = repository.getUid();
         localStorage.saveUid(uid)
 
-        return User(uid = uid)
+    return User(uid = uid, groupNumber = groupNumber)
     }
 }

@@ -2,6 +2,7 @@ package com.example.capybara
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.capybara.data.local.SharedPreferenceManager
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,5 +21,15 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.example.capybara", appContext.packageName)
+    }
+
+    fun save_uid_test() {
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        assertEquals("com.example.capybara", appContext.packageName)
+        val sharedPreferenceManager = SharedPreferenceManager(appContext)
+        val uid = "123"
+        sharedPreferenceManager.saveUid(uid)
+        assertEquals(uid, sharedPreferenceManager.getUid())
+
     }
 }

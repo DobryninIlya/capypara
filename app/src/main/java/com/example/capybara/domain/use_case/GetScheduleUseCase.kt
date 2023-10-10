@@ -10,17 +10,33 @@ class GetScheduleUseCase(
     private val repository: Repository,
     private val localStorage: SharedPreferenceManager,
 ) {
+    class UnRegisteredUserException : Exception()
+    class ScheduleUnavailableException : Exception()
+
     fun invoke(): List<DaySchedule> {
 
-        val uid: String = localStorage.getUid();
-        val groupNumber = repository.getUser(uid).groupNumber
-        val schedule = repository.getSchedule(groupNumber)
-        val weekType = repository.getWeekType()
+        val uid: String? = localStorage.getUid();
 
-        return rebuildSchedule(
-            schedule,
-            weekType,
-        )
+        if (uid.isNullOrEmpty()) throw UnRegisteredUserException()
+
+        try {
+
+            val user = repository.getUser(uid) ?: throw UnRegisteredUserException()
+
+            val schedule = repository.getSchedule(user.groupNumber)
+
+            val weekType = repository.getWeekType()
+
+            localStorage.saveSchedule(schedule)
+
+            return rebuildSchedule(
+                schedule,
+                weekType,
+            )
+
+        } catch (e: Repository.UnavailableRepositoryException) {
+            return GetScheduleFromLocalUseCase(localStorage).invoke()
+        }
+
     }
-
 }
