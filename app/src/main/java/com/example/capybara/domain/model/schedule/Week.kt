@@ -10,5 +10,8 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.encoding.decodeStructure
 
+
+const val EVEN = 0
+const val UNEVEN = 0
 @Serializable()
-class Week(@SerialName("week_parity") private val type: Int)
+class Week(@SerialName("week_parity") val type: Int)

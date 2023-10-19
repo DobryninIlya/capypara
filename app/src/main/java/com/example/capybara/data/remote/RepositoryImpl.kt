@@ -3,46 +3,47 @@ package com.example.capybara.data.remote
 import com.example.capybara.domain.model.Repository
 import com.example.capybara.domain.model.Repository.UnavailableRepositoryException
 import com.example.capybara.domain.model.User
-import com.example.capybara.domain.model.api.ResultWrapper
 import com.example.capybara.domain.model.schedule.DaySchedule
 import com.example.capybara.domain.model.schedule.Group
 import com.example.capybara.domain.model.schedule.Week
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import retrofit2.Retrofit
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
 import okio.IOException
 import java.net.SocketTimeoutException
 
 
 class RepositoryImpl : Repository {
 
-    private val contentType = "application/json".toMediaType()
-    private val json = Json
-
-    private val api: CapyparaApi = Retrofit.Builder()
-        .baseUrl("https://schedule-bot.kai.ru")
-        .addConverterFactory(json.asConverterFactory(contentType))
-        .build()
-        .create(CapyparaApi::class.java);
 
     class UidNotSetException : Exception()
     class NoInfoException : Exception()
 
     private var uid: String = ""
 
+    private val api = CapyparaApi.build()
+
     override fun isValidGroupNumber(groupNumber: Int): Boolean {
-        return false
+        return try {
+            getGroup(groupNumber)
+            true
+        } catch (e: NoInfoException) {
+            false
+        }
     }
 
 
-    fun getGroupId(groupNumber: Int): Group {
+    override fun getGroup(groupNumber: Int): Group {
+        isUidSet()
+
         try {
-            val group =
-                api.getGroupId(groupNumber, uid).execute().body()?.result ?: throw NoInfoException()
+
+            val group = api.getGroupId(groupNumber, uid).execute().body()?.result
+                ?: throw NoInfoException()
+
             return Group(group.groupId, groupNumber)
+
         } catch (e: SocketTimeoutException) {
+
             throw UnavailableRepositoryException()
+
         }
     }
 
@@ -50,13 +51,16 @@ class RepositoryImpl : Repository {
         return ""
     }
 
-    override fun getSchedule(groupId: Int): List<DaySchedule> =
-        api.getSchedule(
-            uid = uid, groupId = groupId
-        ).execute().body()!!
+    override fun getSchedule(groupId: Int): List<DaySchedule> {
 
-    private fun isUidSet(): Boolean {
-        return uid != ""
+        isUidSet()
+
+        return api.getSchedule(uid = uid, groupId = groupId).execute().body()
+            ?: throw NoInfoException()
+    }
+
+    private fun isUidSet() {
+        if (uid == "") throw UidNotSetException()
     }
 
     override fun getUser(uid: String): User? {
@@ -65,9 +69,14 @@ class RepositoryImpl : Repository {
 
     override fun getWeek(): Week {
         try {
-            return api.getWeek().execute().body()?.result ?: throw NoInfoException()
+
+            return api.getWeek().execute().body()?.result
+                ?: throw NoInfoException()
+
         } catch (e: IOException) {
+
             throw UnavailableRepositoryException()
+
         }
     }
 
