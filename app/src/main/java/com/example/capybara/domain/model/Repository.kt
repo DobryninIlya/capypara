@@ -1,8 +1,7 @@
 package com.example.capybara.domain.model
 
 import com.example.capybara.data.remote.CapyparaApi
-import com.example.capybara.domain.model.api.ResultWrapper
-import com.example.capybara.domain.model.schedule.DaySchedule
+import com.example.capybara.domain.model.schedule.Schedule
 import com.example.capybara.domain.model.schedule.Group
 import com.example.capybara.domain.model.schedule.Week
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -17,7 +16,7 @@ interface Repository {
 
     fun registerUser(): String
 
-    fun getSchedule(groupId: Int): List<DaySchedule>
+    fun getSchedule(group: Group): Schedule
 
     fun getUser(uid: String): User?
 

@@ -17,10 +17,13 @@ interface CapyparaApi {
     fun getSchedule(
         @Path("group_id") groupId: Int,
         @Query("token") uid: String
-    ): Call<List<DaySchedule>>
+    ): Call<ResultWrapper<ScheduleResult>>
 
     @GET("api/groups/{group_number}")
-    fun getGroupId(@Path("group_number") groupNumber: Int, @Query("token") uid: String): Call<ResultWrapper<Group>>
+    fun getGroupId(
+        @Path("group_number") groupNumber: Int,
+        @Query("token") uid: String
+    ): Call<ResultWrapper<Group>>
 
     @GET("/api/week")
     fun getWeek(): Call<ResultWrapper<Week>>

@@ -4,7 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.example.capybara.R
 import com.example.capybara.domain.model.LocalStorage
-import com.example.capybara.domain.model.schedule.DaySchedule
+import com.example.capybara.domain.model.schedule.Schedule
+import com.example.capybara.domain.model.schedule.Group
 
 class SharedPreferenceManager(context: Context) : LocalStorage {
 
@@ -22,11 +23,11 @@ class SharedPreferenceManager(context: Context) : LocalStorage {
         return sharedPreference.getString(uidKey, "")
     }
 
-    override fun saveSchedule(schedule: List<DaySchedule>) {
+    override fun saveSchedule(schedule: Schedule) {
         TODO("Not yet implemented")
     }
 
-    override fun getSchedule(): List<DaySchedule> {
+    override fun getSchedule(): List<Schedule> {
 
         return TODO("Provide the return value")
     }
@@ -35,7 +36,7 @@ class SharedPreferenceManager(context: Context) : LocalStorage {
         TODO("Not yet implemented")
     }
 
-    override fun getGroupNumber(): Int {
+    override fun getGroup(): Group {
         TODO("Not yet implemented")
     }
 

@@ -3,7 +3,6 @@ package com.example.capybara
 import com.example.capybara.data.remote.RepositoryImpl
 import com.example.capybara.domain.model.schedule.EVEN
 import com.example.capybara.domain.model.schedule.Group
-import org.junit.After
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -33,6 +32,8 @@ class ScheduleUnitTest {
 
     @Test
     fun get_schedule_test() {
-
+        val group = repo.getGroup(4207)
+        val schedule = repo.getSchedule(group)
+        assert(schedule.monday[0].dayDate != "")
     }
 }

@@ -2,7 +2,7 @@ package com.example.capybara.domain.use_case
 
 import com.example.capybara.domain.model.LocalStorage
 import com.example.capybara.domain.model.Repository
-import com.example.capybara.domain.model.schedule.DaySchedule
+import com.example.capybara.domain.model.schedule.Schedule
 import com.example.capybara.domain.util.rebuildSchedule
 
 
@@ -12,7 +12,7 @@ class GetScheduleUseCase(
 ) {
     class UnRegisteredUserException : Exception()
 
-    fun invoke(): List<DaySchedule> {
+    fun invoke(): List<Schedule> {
 
         val uid: String? = localStorage.getUid();
 
@@ -24,7 +24,7 @@ class GetScheduleUseCase(
                 throw UnRegisteredUserException()
             }
 
-            val schedule = repository.getSchedule(localStorage.getGroupNumber())
+            val schedule = repository.getSchedule(localStorage.getGroup())
 
             val week = repository.getWeek()
 

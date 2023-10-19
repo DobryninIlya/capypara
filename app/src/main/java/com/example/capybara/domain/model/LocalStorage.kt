@@ -1,19 +1,17 @@
 package com.example.capybara.domain.model
 
-import android.content.Context
-import android.content.SharedPreferences
-import com.example.capybara.R
-import com.example.capybara.domain.model.schedule.DaySchedule
+import com.example.capybara.domain.model.schedule.Schedule
+import com.example.capybara.domain.model.schedule.Group
 
 interface LocalStorage {
     fun saveUid(uid: String)
     fun getUid(): String?
 
-    fun saveSchedule(schedule: List<DaySchedule>)
+    fun saveSchedule(schedule: Schedule)
 
-    fun getSchedule(): List<DaySchedule>
+    fun getSchedule(): List<Schedule>
     fun saveGroupNumber(uid: String)
-    fun getGroupNumber(): Int
+    fun getGroup(): Group
 
 
 }

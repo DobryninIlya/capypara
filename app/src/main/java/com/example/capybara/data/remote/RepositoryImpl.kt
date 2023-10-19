@@ -3,7 +3,7 @@ package com.example.capybara.data.remote
 import com.example.capybara.domain.model.Repository
 import com.example.capybara.domain.model.Repository.UnavailableRepositoryException
 import com.example.capybara.domain.model.User
-import com.example.capybara.domain.model.schedule.DaySchedule
+import com.example.capybara.domain.model.schedule.Schedule
 import com.example.capybara.domain.model.schedule.Group
 import com.example.capybara.domain.model.schedule.Week
 import okio.IOException
@@ -51,11 +51,11 @@ class RepositoryImpl : Repository {
         return ""
     }
 
-    override fun getSchedule(groupId: Int): List<DaySchedule> {
+    override fun getSchedule(group: Group): Schedule {
 
         isUidSet()
 
-        return api.getSchedule(uid = uid, groupId = groupId).execute().body()
+        return api.getSchedule(uid = uid, groupId = group.groupId).execute().body()?.result?.schedule
             ?: throw NoInfoException()
     }
 
