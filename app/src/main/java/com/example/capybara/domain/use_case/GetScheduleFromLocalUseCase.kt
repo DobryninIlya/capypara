@@ -1,10 +1,10 @@
 package com.example.capybara.domain.use_case
 
-import com.example.capybara.data.local.SharedPreferenceManager
+import com.example.capybara.domain.model.LocalStorage
 import com.example.capybara.domain.model.schedule.DaySchedule
 
 class GetScheduleFromLocalUseCase(
-    private val localStorage: SharedPreferenceManager
+    private val localStorage: LocalStorage
 ) {
     class ScheduleUnavailableException : Exception()
 

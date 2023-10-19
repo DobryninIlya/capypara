@@ -1,5 +1,7 @@
 package com.example.capybara
 
+import com.example.capybara.data.remote.RepositoryImpl
+import com.example.capybara.domain.model.schedule.WeekType
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -11,7 +13,15 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
     @Test
-    fun key() {
-        assertEquals(4, 2 + 2)
+    fun get_week_test() {
+        val repo = RepositoryImpl();
+        assertEquals(repo.getWeekType(), WeekType.Even)
+    }
+    @Test
+    fun get_schedule() {
+        val repo = RepositoryImpl();
+        repo.setUid("token")
+
+        println(repo.getGroupId(4207))
     }
 }
