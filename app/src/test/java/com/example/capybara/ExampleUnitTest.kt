@@ -15,7 +15,7 @@ class ExampleUnitTest {
     @Test
     fun get_week_test() {
         val repo = RepositoryImpl();
-        assertEquals(repo.getWeekType(), WeekType.Even)
+        assertEquals(repo.getWeek().type, WeekType.Even)
     }
     @Test
     fun get_schedule() {

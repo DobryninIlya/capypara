@@ -1,6 +1,5 @@
 package com.example.capybara.data.remote
 
-import com.example.capybara.domain.model.api.ResultWeekApi
 import com.example.capybara.domain.model.api.ResultWrapper
 import com.example.capybara.domain.model.schedule.*
 import retrofit2.Call
@@ -17,10 +16,10 @@ interface CapyparaApi {
     ): Call<List<DaySchedule>>
 
     @GET("api/groups/{group_number}")
-    fun getGroupId(@Path("group_number") groupNumber: Int, @Query("token") uid: String): Call<ResultWrapper<Int>>
+    fun getGroupId(@Path("group_number") groupNumber: Int, @Query("token") uid: String): Call<ResultWrapper<Group>>
 
     @GET("/api/week")
-    fun getWeek(): Call<ResultWeekApi>
+    fun getWeek(): Call<ResultWrapper<Week>>
 
 
 }

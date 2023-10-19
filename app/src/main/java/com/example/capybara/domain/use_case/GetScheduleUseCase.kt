@@ -26,13 +26,13 @@ class GetScheduleUseCase(
 
             val schedule = repository.getSchedule(localStorage.getGroupNumber())
 
-            val weekType = repository.getWeekType()
+            val week = repository.getWeek()
 
             localStorage.saveSchedule(schedule)
 
             return rebuildSchedule(
                 schedule,
-                weekType,
+                week,
             )
 
         } catch (e: Repository.UnavailableRepositoryException) {
