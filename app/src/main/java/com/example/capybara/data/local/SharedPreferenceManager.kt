@@ -2,7 +2,7 @@ package com.example.capybara.data.local
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.capybara.R
+import com.kai.capybara.R
 import com.example.capybara.domain.model.LocalStorage
 import com.example.capybara.domain.model.schedule.Schedule
 import com.example.capybara.domain.model.schedule.Group
@@ -32,7 +32,7 @@ class SharedPreferenceManager(context: Context) : LocalStorage {
         return TODO("Provide the return value")
     }
 
-    override fun saveGroupNumber(uid: String) {
+    override fun savegroupName(uid: String) {
         TODO("Not yet implemented")
     }
 

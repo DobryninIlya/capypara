@@ -13,7 +13,7 @@ import org.junit.Before
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ScheduleUnitTest {
+class RepoUnitTest {
 
     private lateinit var repo: RepositoryImpl
     @Before
@@ -23,11 +23,11 @@ class ScheduleUnitTest {
     }
     @Test
     fun get_week_test() {
-        assertEquals(repo.getWeek().type, EVEN)
+        assertEquals(repo.getWeek().week_parity, EVEN)
     }
     @Test
     fun get_group_test() {
-        assertEquals(repo.getGroup(4207), Group(groupId=24683, groupNumber=4207))
+        assertEquals(repo.getGroup(4207), Group(group_id=24683, groupName=4207))
     }
 
     @Test
@@ -35,5 +35,11 @@ class ScheduleUnitTest {
         val group = repo.getGroup(4207)
         val schedule = repo.getSchedule(group)
         assert(schedule.monday[0].dayDate != "")
+    }
+
+
+    @Test
+    fun register_user_test() {
+
     }
 }

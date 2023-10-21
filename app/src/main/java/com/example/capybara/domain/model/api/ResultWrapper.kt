@@ -1,4 +1,5 @@
 package com.example.capybara.domain.model.api
+
 import kotlinx.serialization.Serializable
 
 @Serializable

@@ -6,18 +6,18 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Lesson(
-    @SerialName("dayDate") var dayDate: String? = null,
-    @SerialName("audNum") var audNum: String? = null,
-    @SerialName("disciplName") var disciplName: String? = null,
-    @SerialName("buildNum") var buildNum: String? = null,
-    @SerialName("orgUnitName") var orgUnitName: String? = null,
-    @SerialName("dayTime") var dayTime: String? = null,
-    @SerialName("dayNum") var dayNum: String? = null,
-    @SerialName("potok") var potok: String? = null,
-    @SerialName("prepodName") var prepodName: String? = null,
-    @SerialName("disciplNum") var disciplNum: String? = null,
-    @SerialName("orgUnitId") var orgUnitId: String? = null,
-    @SerialName("prepodLogin") var prepodLogin: String? = null,
-    @SerialName("disciplType") var disciplType: String? = null
+    var dayDate: String? = null,
+    var audNum: String? = null,
+    var disciplName: String? = null,
+    var buildNum: String? = null,
+    var orgUnitName: String? = null,
+    var dayTime: String? = null,
+    var dayNum: String? = null,
+    var potok: String? = null,
+    var prepodName: String? = null,
+    var disciplNum: String? = null,
+    var orgUnitId: String? = null,
+    var prepodLogin: String? = null,
+    var disciplType: String? = null
 
 )

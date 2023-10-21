@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ScheduleResult(
-    @SerialName("schedule") val schedule: Schedule
+    val schedule: Schedule
 )
 @Serializable
 data class Schedule(

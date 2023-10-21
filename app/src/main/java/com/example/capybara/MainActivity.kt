@@ -7,7 +7,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.capybara.databinding.ActivityMainBinding
+import com.kai.capybara.R
+import com.kai.capybara.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,5 +1,6 @@
 package com.example.capybara.data.remote
 
+import com.example.capybara.domain.model.FirebaseInterface
 import com.example.capybara.domain.model.Repository
 import com.example.capybara.domain.model.Repository.UnavailableRepositoryException
 import com.example.capybara.domain.model.User
@@ -18,11 +19,13 @@ class RepositoryImpl : Repository {
 
     private var uid: String = ""
 
-    private val api = CapyparaApi.build()
+    private val api = CapyparaApi.get()
 
-    override fun isValidGroupNumber(groupNumber: Int): Boolean {
+    private lateinit var firebase: FirebaseInterface
+
+    override fun isValidgroupName(groupName: Int): Boolean {
         return try {
-            getGroup(groupNumber)
+            getGroup(groupName)
             true
         } catch (e: NoInfoException) {
             false
@@ -30,15 +33,15 @@ class RepositoryImpl : Repository {
     }
 
 
-    override fun getGroup(groupNumber: Int): Group {
+    override fun getGroup(groupName: Int): Group {
         isUidSet()
 
         try {
 
-            val group = api.getGroupId(groupNumber, uid).execute().body()?.result
+            val group = api.getGroupId(groupName, uid).execute().body()?.result
                 ?: throw NoInfoException()
 
-            return Group(group.groupId, groupNumber)
+            return Group(group.group_id, groupName)
 
         } catch (e: SocketTimeoutException) {
 
@@ -47,15 +50,22 @@ class RepositoryImpl : Repository {
         }
     }
 
-    override fun registerUser(): String {
-        return ""
+    override fun registerUser(user: User): String {
+
+        user.uid = firebase.registerUser()
+        val res = api.registerUser(user).execute()
+        if (res.isSuccessful) {
+            res.errorBody()
+        }
+        return "asd"
     }
 
     override fun getSchedule(group: Group): Schedule {
 
         isUidSet()
 
-        return api.getSchedule(uid = uid, groupId = group.groupId).execute().body()?.result?.schedule
+        return api.getSchedule(uid = uid, groupId = group.group_id).execute()
+            .body()?.result?.schedule
             ?: throw NoInfoException()
     }
 

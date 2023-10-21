@@ -4,27 +4,27 @@ import com.example.capybara.domain.model.LocalStorage
 import com.example.capybara.domain.model.Repository
 import com.example.capybara.domain.model.User
 
-class RegisterByGroupNumberUseCase(
+class RegisterBygroupNameUseCase(
     private val repository: Repository,
     private val localStorage: LocalStorage,
 ) {
 
-    class WrongGroupNumberException : Exception()
+    class WronggroupNameException : Exception()
     class RegistrationUnavailableException : Exception()
 
-    fun invoke(groupNumber: Int): User {
+    fun invoke(groupName: Int): User {
 
         try {
             val uid: String = repository.registerUser();
 
             localStorage.saveUid(uid)
 
-            if (!repository.isValidGroupNumber(groupNumber))
-                throw WrongGroupNumberException()
+            if (!repository.isValidgroupName(groupName))
+                throw WronggroupNameException()
 
-            localStorage.saveGroupNumber(uid)
+            localStorage.savegroupName(uid)
 
-            return User(uid = uid, groupNumber = groupNumber)
+            return User(uid = uid, groupName = groupName)
 
         } catch (_: Repository.UnavailableRepositoryException) {
             throw RegistrationUnavailableException()

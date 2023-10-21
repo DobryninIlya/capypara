@@ -12,9 +12,9 @@ import retrofit2.Retrofit
 interface Repository {
     class UnavailableRepositoryException : Exception()
 
-    fun isValidGroupNumber(groupNumber: Int): Boolean
+    fun isValidgroupName(groupName: Int): Boolean
 
-    fun registerUser(): String
+    fun registerUser(user: User): String
 
     fun getSchedule(group: Group): Schedule
 
@@ -23,7 +23,7 @@ interface Repository {
     fun getWeek(): Week
     fun setUid(uid: String)
     fun isValidToken(uid: String): Boolean
-    fun getGroup(groupNumber: Int): Group
+    fun getGroup(groupName: Int): Group
 
 
     companion object {
