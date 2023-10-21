@@ -8,12 +8,12 @@ plugins {
 
 
 android {
-    namespace = "com.example.capybara"
+    namespace = "com.kai.capybara"
     compileSdk = 34
 
 
     defaultConfig {
-        applicationId = "com.example.capybara"
+        applicationId = "com.kai.capybara"
         minSdk = 24
         targetSdk = 33
         versionCode = 1
