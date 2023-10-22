@@ -18,7 +18,6 @@ import org.junit.Assert.*
 class kaiInstrumentedTest {
     @Test
     fun useAppContext() {
-        // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.kai.capybara", appContext.packageName)
     }
@@ -37,6 +36,6 @@ class kaiInstrumentedTest {
     @Test
     fun firebase_register_test() {
         val firebase = FirebaseManager()
-        println(firebase.getNewUid())
+        assert(firebase.getNewUid() != "")
     }
 }

@@ -12,17 +12,13 @@ import okio.IOException
 import java.net.SocketTimeoutException
 
 
-class RepositoryImpl : Repository {
+class RepositoryImpl(api: CapyparaApi, firebase: FirebaseManager) : Repository {
 
 
     class TokenNotSetException : Exception()
     class NoInfoException : Exception()
 
     private var token: String = ""
-
-    private val api = com.kai.capybara.data.remote.CapyparaApi.get()
-
-    private var firebase: RegisterInterface = FirebaseManager()
 
     override fun isValidGroupName(groupName: Int): Boolean {
         return try {

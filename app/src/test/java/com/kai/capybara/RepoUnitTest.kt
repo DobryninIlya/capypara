@@ -1,5 +1,8 @@
 package com.kai.capybara
 
+import com.google.firebase.auth.FirebaseAuth
+import com.kai.capybara.data.remote.CapyparaApi
+import com.kai.capybara.data.remote.FirebaseManager
 import com.kai.capybara.data.remote.RepositoryImpl
 import com.kai.capybara.domain.model.User
 import com.kai.capybara.domain.model.schedule.EVEN
@@ -18,9 +21,23 @@ class RepoUnitTest {
 
     private lateinit var repo: RepositoryImpl
 
+
+    @Before
+    fun mockFirebase() {
+        firebaseAuth = mock(FirebaseAuth::class.java)
+        firebaseManager = FirebaseManager()
+        firebaseManager.auth = firebaseAuth
+    }
+
+
     @Before
     fun setUp() {
-        repo = RepositoryImpl()
+        val firebaseAuth = mock(FirebaseAuth::class.java)
+
+        repo = RepositoryImpl(
+            api = CapyparaApi.get(),
+            firebase = FirebaseManager()
+        )
         repo.setUid("token")
     }
 
