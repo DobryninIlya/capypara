@@ -1,7 +1,6 @@
 package com.example.capybara.data.remote
 
-import com.example.capybara.domain.model.User
-import com.example.capybara.domain.model.api.RegisterUser
+import com.example.capybara.domain.model.api.RegisterUserRequest
 import com.example.capybara.domain.model.api.ResultWrapper
 import com.example.capybara.domain.model.api.Token
 import com.example.capybara.domain.model.schedule.*
@@ -33,7 +32,7 @@ interface CapyparaApi {
     fun getWeek(): Call<ResultWrapper<Week>>
 
     @GET("/api/token")
-    fun registerUser(@Body request: RegisterUser): Call<ResultWrapper<Token>>
+    fun registerUser(@Body request: RegisterUserRequest): Call<ResultWrapper<Token>>
 
     companion object {
         fun get(): CapyparaApi {

@@ -4,13 +4,13 @@ import com.example.capybara.domain.model.schedule.Schedule
 import com.example.capybara.domain.model.schedule.Group
 
 interface LocalStorage {
-    fun saveUid(uid: String)
+    fun saveToken(uid: String)
     fun getUid(): String?
 
     fun saveSchedule(schedule: Schedule)
 
     fun getSchedule(): List<Schedule>
-    fun savegroupName(uid: String)
+    fun saveGroupName(groupName: Int)
     fun getGroup(): Group
 
 

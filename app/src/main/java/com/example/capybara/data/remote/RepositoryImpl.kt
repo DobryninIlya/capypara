@@ -1,9 +1,10 @@
 package com.example.capybara.data.remote
 
-import com.example.capybara.domain.model.FirebaseInterface
+import com.example.capybara.domain.model.RegisterInterface
 import com.example.capybara.domain.model.Repository
 import com.example.capybara.domain.model.Repository.UnavailableRepositoryException
 import com.example.capybara.domain.model.User
+import com.example.capybara.domain.model.api.RegisterUserRequest
 import com.example.capybara.domain.model.schedule.Schedule
 import com.example.capybara.domain.model.schedule.Group
 import com.example.capybara.domain.model.schedule.Week
@@ -14,14 +15,14 @@ import java.net.SocketTimeoutException
 class RepositoryImpl : Repository {
 
 
-    class UidNotSetException : Exception()
+    class TokenNotSetException : Exception()
     class NoInfoException : Exception()
 
-    private var uid: String = ""
+    private var token: String = ""
 
     private val api = CapyparaApi.get()
 
-    private lateinit var firebase: FirebaseInterface
+    private var firebase: RegisterInterface = FirebaseManager()
 
     override fun isValidgroupName(groupName: Int): Boolean {
         return try {
@@ -34,11 +35,12 @@ class RepositoryImpl : Repository {
 
 
     override fun getGroup(groupName: Int): Group {
-        isUidSet()
+
+        isTokenSet()
 
         try {
 
-            val group = api.getGroupId(groupName, uid).execute().body()?.result
+            val group = api.getGroupId(groupName, token).execute().body()?.result
                 ?: throw NoInfoException()
 
             return Group(group.group_id, groupName)
@@ -50,27 +52,32 @@ class RepositoryImpl : Repository {
         }
     }
 
-    override fun registerUser(user: User): String {
+    override fun registerUser(user: User): User {
 
         user.uid = firebase.registerUser()
-        val res = api.registerUser(user).execute()
+
+        val res = api.registerUser(RegisterUserRequest(user)).execute()
+
         if (res.isSuccessful) {
-            res.errorBody()
+            //TODO(return error)
+            res.errorBody().toString()
+        } else {
+            user.token = res.body()!!.result.token
         }
-        return "asd"
+        return user
     }
 
     override fun getSchedule(group: Group): Schedule {
 
-        isUidSet()
+        isTokenSet()
 
-        return api.getSchedule(uid = uid, groupId = group.group_id).execute()
+        return api.getSchedule(uid = token, groupId = group.group_id).execute()
             .body()?.result?.schedule
             ?: throw NoInfoException()
     }
 
-    private fun isUidSet() {
-        if (uid == "") throw UidNotSetException()
+    private fun isTokenSet() {
+        if (token == "") throw TokenNotSetException()
     }
 
     override fun getUser(uid: String): User? {
@@ -91,7 +98,7 @@ class RepositoryImpl : Repository {
     }
 
     override fun setUid(uid: String) {
-        this.uid = uid
+        this.token = uid
     }
 
     override fun isValidToken(uid: String): Boolean {

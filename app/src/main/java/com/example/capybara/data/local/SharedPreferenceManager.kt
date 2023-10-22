@@ -16,7 +16,7 @@ class SharedPreferenceManager(context: Context) : LocalStorage {
         Context.MODE_PRIVATE
     )
 
-    override fun saveUid(uid: String) =
+    override fun saveToken(uid: String) =
         sharedPreference.edit().putString(uidKey, uid).apply()
 
     override fun getUid(): String? {
@@ -32,7 +32,7 @@ class SharedPreferenceManager(context: Context) : LocalStorage {
         return TODO("Provide the return value")
     }
 
-    override fun savegroupName(uid: String) {
+    override fun saveGroupName(groupName: Int) {
         TODO("Not yet implemented")
     }
 

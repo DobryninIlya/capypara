@@ -14,7 +14,7 @@ interface Repository {
 
     fun isValidgroupName(groupName: Int): Boolean
 
-    fun registerUser(user: User): String
+    fun registerUser(user: User): User
 
     fun getSchedule(group: Group): Schedule
 

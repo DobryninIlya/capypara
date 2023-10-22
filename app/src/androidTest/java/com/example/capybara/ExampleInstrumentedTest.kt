@@ -28,7 +28,7 @@ class ExampleInstrumentedTest {
         assertEquals("com.example.capybara", appContext.packageName)
         val sharedPreferenceManager = SharedPreferenceManager(appContext)
         val uid = "123"
-        sharedPreferenceManager.saveUid(uid)
+        sharedPreferenceManager.saveToken(uid)
         assertEquals(uid, sharedPreferenceManager.getUid())
 
     }

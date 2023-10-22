@@ -14,7 +14,7 @@ import org.junit.Before
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class RepoUnitTest {
+class FirebaseUnitTest {
 
     private lateinit var repo: RepositoryImpl
 
