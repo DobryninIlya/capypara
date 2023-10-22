@@ -12,7 +12,7 @@ import okio.IOException
 import java.net.SocketTimeoutException
 
 
-class RepositoryImpl(api: CapyparaApi, firebase: FirebaseManager) : Repository {
+class RepositoryImpl(val api: CapyparaApi, val firebase: FirebaseManager) : Repository {
 
 
     class TokenNotSetException : Exception()

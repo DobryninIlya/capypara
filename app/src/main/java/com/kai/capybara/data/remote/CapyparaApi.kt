@@ -18,14 +18,12 @@ interface CapyparaApi {
 
     @GET("api/schedule/{group_id}")
     fun getSchedule(
-        @Path("group_id") groupId: Int,
-        @Query("token") uid: String
+        @Path("group_id") groupId: Int, @Query("token") uid: String
     ): Call<ResultWrapper<ScheduleResult>>
 
     @GET("api/groups/{group_number}")
     fun getGroupId(
-        @Path("group_number") groupName: Int,
-        @Query("token") uid: String
+        @Path("group_number") groupName: Int, @Query("token") uid: String
     ): Call<ResultWrapper<Group>>
 
     @GET("/api/week")
@@ -35,17 +33,13 @@ interface CapyparaApi {
     fun registerUser(@Body request: RegisterUserRequest): Call<ResultWrapper<Token>>
 
     companion object {
-        fun get(): com.kai.capybara.data.remote.CapyparaApi {
-            val contentType = "application/json".toMediaType()
-            val json = Json
-
-            val api: com.kai.capybara.data.remote.CapyparaApi = Retrofit.Builder()
+        fun get(): CapyparaApi {
+            return Retrofit.Builder()
                 .baseUrl("https://schedule-bot.kai.ru")
-                .addConverterFactory(json.asConverterFactory(contentType))
+                .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
                 .build()
-                .create(com.kai.capybara.data.remote.CapyparaApi::class.java);
+                .create(CapyparaApi::class.java);
 
-            return api
         }
     }
 
