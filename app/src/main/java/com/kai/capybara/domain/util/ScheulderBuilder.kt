@@ -51,10 +51,15 @@ fun rebuildDayLessons(lessons: Lessons, weekParity: Int, date: Date): ArrayList<
         }
 
         if (isWeekParityToFirstGroup(weekOrDatesString, weekParity)) {
+
             lesson.dayDate = "[1 гр.]"
+
         } else if (isWeekParityToSecondGroup(weekOrDatesString, weekParity)) {
+
             lesson.dayDate = "[2 гр.]"
-        } else if (!isNoDate) {
+
+        } else if (isContainDate) {
+
             lesson.dayDate = getSubgroupForDate(
                 weekOrDatesString,
                 dateType1,
@@ -67,7 +72,6 @@ fun rebuildDayLessons(lessons: Lessons, weekParity: Int, date: Date): ArrayList<
 
     return rebuiltDayLessons
 }
-
 
 
 fun getSubgroupForDate(data: String, ex1: String, ex2: String): String {
