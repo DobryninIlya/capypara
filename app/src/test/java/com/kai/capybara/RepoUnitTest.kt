@@ -1,9 +1,10 @@
 package com.kai.capybara
 
-import com.google.firebase.auth.FirebaseAuth
+import androidx.core.content.res.TypedArrayUtils.getText
 import com.kai.capybara.data.remote.CapyparaApi
 import com.kai.capybara.data.remote.FirebaseManager
 import com.kai.capybara.data.remote.RepositoryImpl
+import com.kai.capybara.domain.model.RegisterInterface
 import com.kai.capybara.domain.model.User
 import com.kai.capybara.domain.model.schedule.EVEN
 import com.kai.capybara.domain.model.schedule.Group
@@ -11,6 +12,8 @@ import org.junit.Test
 
 import org.junit.Assert.*
 import org.junit.Before
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
 
 /**
  * kai local unit test, which will execute on the development machine (host).
@@ -24,21 +27,21 @@ class RepoUnitTest {
 
     @Before
     fun mockFirebase() {
-        firebaseAuth = mock(FirebaseAuth::class.java)
-        firebaseManager = FirebaseManager()
-        firebaseManager.auth = firebaseAuth
+
     }
 
 
     @Before
     fun setUp() {
-        val firebaseAuth = mock(FirebaseAuth::class.java)
+        val mock = mock<RegisterInterface> {
+            on { getNewUid() } doReturn "F35fxjVYUMdvGbSK8JpkmKPKhv93"
+        }
 
         repo = RepositoryImpl(
             api = CapyparaApi.get(),
-            firebase = FirebaseManager()
+            firebase = mock
         )
-        repo.setUid("token")
+        repo.setToken("token")
     }
 
     @Test
@@ -61,12 +64,12 @@ class RepoUnitTest {
 
     @Test
     fun register_user_test() {
-        val token = repo.registerUser(
+        val user = repo.registerUser(
             User(
                 device_tag = "12312",
                 groupName = 4207,
             )
         )
-        println(token)
+        assert(user.token != null)
     }
 }

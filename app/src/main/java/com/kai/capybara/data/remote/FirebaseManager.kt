@@ -9,7 +9,6 @@ class FirebaseManager : RegisterInterface {
 
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-
     override fun getNewUid(): String {
         return auth.signInAnonymously().await().result.user!!.uid
     }

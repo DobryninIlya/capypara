@@ -11,6 +11,8 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.HTTP
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -29,18 +31,17 @@ interface CapyparaApi {
     @GET("/api/week")
     fun getWeek(): Call<ResultWrapper<Week>>
 
-    @GET("/api/token")
+    @HTTP(method = "GET", path="/api/token", hasBody = true)
     fun registerUser(@Body request: RegisterUserRequest): Call<ResultWrapper<Token>>
 
     companion object {
-        fun get(): CapyparaApi {
-            return Retrofit.Builder()
+        fun get(): CapyparaApi =
+            Retrofit.Builder()
                 .baseUrl("https://schedule-bot.kai.ru")
                 .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
                 .build()
                 .create(CapyparaApi::class.java);
 
-        }
     }
 
 }

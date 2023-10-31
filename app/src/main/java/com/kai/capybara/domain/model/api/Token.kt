@@ -1,5 +1,8 @@
 package com.kai.capybara.domain.model.api
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Token(
-    val token: String
+    var token: String
 )

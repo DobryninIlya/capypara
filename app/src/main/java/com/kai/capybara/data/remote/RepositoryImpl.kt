@@ -1,18 +1,24 @@
 package com.kai.capybara.data.remote
 
+import android.util.Log
 import com.kai.capybara.domain.model.RegisterInterface
 import com.kai.capybara.domain.model.Repository
 import com.kai.capybara.domain.model.Repository.UnavailableRepositoryException
 import com.kai.capybara.domain.model.User
+import com.kai.capybara.domain.model.api.Error
 import com.kai.capybara.domain.model.api.RegisterUserRequest
 import com.kai.capybara.domain.model.schedule.Schedule
 import com.kai.capybara.domain.model.schedule.Group
 import com.kai.capybara.domain.model.schedule.Week
+import com.kai.capybara.domain.util.isConnectingException
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.internal.readJson
 import okio.IOException
 import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 
 
-class RepositoryImpl(val api: CapyparaApi, val firebase: FirebaseManager) : Repository {
+class RepositoryImpl(val api: CapyparaApi, val firebase: RegisterInterface) : Repository {
 
 
     class TokenNotSetException : Exception()
@@ -20,12 +26,31 @@ class RepositoryImpl(val api: CapyparaApi, val firebase: FirebaseManager) : Repo
 
     private var token: String = ""
 
+
+    private fun <T> handleConnectingException(block: () -> T): T {
+        try {
+
+            return block()
+
+        } catch (e: Exception) {
+
+            throw if (isConnectingException(e))
+                UnavailableRepositoryException()
+            else e
+
+        }
+    }
+
     override fun isValidGroupName(groupName: Int): Boolean {
         return try {
+
             getGroup(groupName)
             true
+
         } catch (e: NoInfoException) {
+
             false
+
         }
     }
 
@@ -34,40 +59,47 @@ class RepositoryImpl(val api: CapyparaApi, val firebase: FirebaseManager) : Repo
 
         isTokenSet()
 
-        try {
+        return handleConnectingException {
 
             val group = api.getGroupId(groupName, token).execute().body()?.result
                 ?: throw NoInfoException()
 
-            return Group(group.group_id, groupName)
-
-        } catch (e: SocketTimeoutException) {
-
-            throw UnavailableRepositoryException()
-
+            return@handleConnectingException Group(group.group_id, groupName)
         }
+
+
     }
 
-    override fun registerUser(user: User): User {
+    override fun registerUser(user: User): User = handleConnectingException {
 
         user.uid = firebase.getNewUid()
 
         val res = api.registerUser(RegisterUserRequest(user)).execute()
 
         if (res.isSuccessful) {
-            //TODO(return error)
-            res.errorBody().toString()
-        } else {
+
             user.token = res.body()!!.result.token
+
+        } else {
+
+            throw UnavailableRepositoryException(
+                Json.decodeFromString<Error>(
+                    res.errorBody()!!.string()
+                ).error
+            )
+
         }
-        return user
+
+        return@handleConnectingException user
+
     }
 
-    override fun getSchedule(group: Group): Schedule {
+    override fun getSchedule(group: Group): Schedule = handleConnectingException {
 
         isTokenSet()
 
-        return api.getSchedule(uid = token, groupId = group.group_id).execute()
+        return@handleConnectingException api.getSchedule(uid = token, groupId = group.group_id)
+            .execute()
             .body()?.result?.schedule
             ?: throw NoInfoException()
     }
@@ -80,21 +112,15 @@ class RepositoryImpl(val api: CapyparaApi, val firebase: FirebaseManager) : Repo
         return TODO("Provide the return value")
     }
 
-    override fun getWeek(): Week {
-        try {
+    override fun getWeek(): Week = handleConnectingException {
 
-            return api.getWeek().execute().body()?.result
-                ?: throw NoInfoException()
+        return@handleConnectingException api.getWeek().execute().body()?.result
+            ?: throw NoInfoException()
 
-        } catch (e: IOException) {
-
-            throw UnavailableRepositoryException()
-
-        }
     }
 
-    override fun setUid(uid: String) {
-        this.token = uid
+    override fun setToken(token: String) {
+        this.token = token
     }
 
     override fun isValidToken(uid: String): Boolean {

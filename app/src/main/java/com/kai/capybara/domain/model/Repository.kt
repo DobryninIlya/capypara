@@ -9,7 +9,10 @@ import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 
 interface Repository {
-    class UnavailableRepositoryException : Exception()
+    class UnavailableRepositoryException(val string: String = "") : Exception() {
+        override val message: String
+            get() = string
+    }
 
     fun isValidGroupName(groupName: Int): Boolean
 
@@ -20,20 +23,7 @@ interface Repository {
     fun getUser(uid: String): User?
 
     fun getWeek(): Week
-    fun setUid(uid: String)
+    fun setToken(uid: String)
     fun isValidToken(uid: String): Boolean
     fun getGroup(groupName: Int): Group
-
-
-    companion object {
-        private val contentType = "application/json".toMediaType()
-        private val json = Json
-
-        private val api: com.kai.capybara.data.remote.CapyparaApi = Retrofit.Builder()
-            .baseUrl("https://schedule-bot.kai.ru")
-            .addConverterFactory(json.asConverterFactory(contentType))
-            .build()
-            .create(com.kai.capybara.data.remote.CapyparaApi::class.java);
-
-    }
 }
