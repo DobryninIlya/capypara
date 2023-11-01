@@ -11,12 +11,12 @@ data class ScheduleResult(
 )
 @Serializable
 data class Schedule(
-    @SerialName("1") var monday: Lessons = arrayListOf(),
-    @SerialName("2") var tuesday: Lessons = arrayListOf(),
-    @SerialName("3") var wednesday: Lessons = arrayListOf(),
-    @SerialName("4") var thursday: Lessons = arrayListOf(),
-    @SerialName("5") var friday: Lessons = arrayListOf(),
-    @SerialName("6") var saturday: Lessons = arrayListOf(),
+    @SerialName("1") var monday: ArrayList<Lesson> = arrayListOf(),
+    @SerialName("2") var tuesday: ArrayList<Lesson> = arrayListOf(),
+    @SerialName("3") var wednesday: ArrayList<Lesson> = arrayListOf(),
+    @SerialName("4") var thursday: ArrayList<Lesson> = arrayListOf(),
+    @SerialName("5") var friday: ArrayList<Lesson> = arrayListOf(),
+    @SerialName("6") var saturday: ArrayList<Lesson> = arrayListOf(),
 ) {
     val daysLessons = arrayListOf(monday, tuesday, wednesday, thursday, friday, saturday)
 }
