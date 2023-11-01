@@ -55,8 +55,7 @@ fun rebuildDayLessons(
 
         if (lessonDate.isToday) {
             rebuiltLesson.dayDate = lessonDate.getString()
-
-            rebuiltDayLessons.add(lesson)
+            rebuiltDayLessons.add(rebuiltLesson)
         }
     }
 

@@ -14,9 +14,9 @@ data class DateTime(
         month = calendar.get(Calendar.MONTH),
         day = calendar.get(Calendar.DAY_OF_MONTH),
         dayMonthString = SimpleDateFormat("dd.MM", Locale.getDefault()).format(calendar.time),
-        dayMonthStringWithoutZero = SimpleDateFormat(
-            "d.MM",
-            Locale.getDefault()
+        dayMonthStringWithoutZero =
+        SimpleDateFormat(
+            "d.MM", Locale.getDefault()
         ).format(calendar.time)
     )
 }
