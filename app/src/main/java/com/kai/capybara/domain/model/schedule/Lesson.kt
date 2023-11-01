@@ -22,4 +22,3 @@ data class Lesson(
 
 
 
-typealias Lessons = ArrayList<Lesson>

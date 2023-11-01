@@ -1,13 +1,10 @@
 package com.kai.capybara.domain.util
 
-import com.kai.capybara.domain.model.schedule.EVEN
-import com.kai.capybara.domain.model.schedule.EVEN_UNEVEN_STRING
 import com.kai.capybara.domain.model.schedule.Lesson
+import com.kai.capybara.domain.model.schedule.LessonDate
+import com.kai.capybara.domain.model.schedule.LessonDateType
 import com.kai.capybara.domain.model.schedule.Lessons
 import com.kai.capybara.domain.model.schedule.Schedule
-import com.kai.capybara.domain.model.schedule.UNEVEN
-import com.kai.capybara.domain.model.schedule.UNEVEN_EVEN_STRING
-import com.kai.capybara.domain.model.schedule.UNEVEN_STRING
 import com.kai.capybara.domain.model.schedule.Week
 import java.util.Date
 
@@ -23,56 +20,52 @@ fun rebuildSchedule(schedule: Schedule, week: Week, currentDate: Date): Schedule
     return rebuiltSchedule
 }
 
-fun isNoInfo(string: String): Boolean {
-    val dotsOrDashesRegex = Regex("^[.-]+[.\\s]+$")
-    return dotsOrDashesRegex.matches(string)
-}
 
 
-fun rebuildDayLessons(lessons: Lessons, weekParity: Int, date: Date): ArrayList<Lesson> {
+
+fun rebuildDayLessons(lessons: ArrayList<Lesson>, weekParity: Int, date: Date): ArrayList<Lesson> {
 
     val rebuiltDayLessons = ArrayList<Lesson>(lessons.size)
+
     lessons.forEach { lesson ->
-        val weekOrDatesString = lesson.dayDate.trim().lowercase()
 
-        if (isNoInfo(lesson.audNum)) lesson.audNum = ""
+        val rebuiltLesson = lesson.copy()
 
-        val (dateType1, dateType2) = getDate(weekOrDatesString, 0)
+        val lessonDate = LessonDate(lesson.dayDate)
 
-        val isContainDate = (dateType1 + dateType2 != "")
+        if (lessonDate.type == LessonDateType.NoInfo) {
+            lessonDate.makeEmpty()
+        }
+        else if (lessonDate.type == LessonDateType.WeekParity) {
+            lessonDate.checkForParityMatch(date)
+        } else if (lessonDate.type == LessonDateType.SubGroupWeekParity) {
+            lesson.changeForSubGroupNumber(weekParity)
+        } else if (lessonDate.type == LessonDateType.DatesForSubGroups) {
+            lessonDate.changeForSubGroupNumber(date)
+        } else if (lessonDate.type = LessonDateType.Dates) {
+            lessonDate.checkForDate(date)
+        }
 
-        val isNotNeededToReformat = isNoInfo(weekOrDatesString) ||
-                isWeekParityMatch(weekOrDatesString, weekParity) ||
-                !isContainDate
-
-        if (isNotNeededToReformat) {
+        if (lessonDate.isToday) {
+            rebuiltLesson.dayDate = lessonDate.asString
             rebuiltDayLessons.add(lesson)
-            return@forEach
         }
-
-        if (isWeekParityToFirstGroup(weekOrDatesString, weekParity)) {
-
-            lesson.dayDate = "[1 гр.]"
-
-        } else if (isWeekParityToSecondGroup(weekOrDatesString, weekParity)) {
-
-            lesson.dayDate = "[2 гр.]"
-
-        } else if (isContainDate) {
-
-            lesson.dayDate = getSubgroupForDate(
-                weekOrDatesString,
-                dateType1,
-                dateType2
-            )
-        }
-
-        rebuiltDayLessons.add(lesson)
     }
 
     return rebuiltDayLessons
 }
 
+private fun reformatDayDate(dayDate: String, weekParity: Int, date: Date): String {
+    val dayDate = dayDate.trim().lowercase()
+
+    if (isNoInfo(dayDate)) return ""
+    if (isWeekParityToFirstGroup(dayDate)) return "1group"
+    if (isWeekParityToSecondGroup(dayDate)) return "2group"
+    if (isCurrentDate(dayDate, date)) return getSubGroupForCurrentDate(dayDate, date)
+
+    return dayDate
+
+}
 
 fun getSubgroupForDate(data: String, ex1: String, ex2: String): String {
     if (data.contains("/")) {
