@@ -1,9 +1,11 @@
 package com.kai.capybara.domain.use_case
 
+import com.kai.capybara.domain.model.DateTime
 import com.kai.capybara.domain.model.LocalStorage
 import com.kai.capybara.domain.model.Repository
 import com.kai.capybara.domain.model.schedule.Schedule
 import com.kai.capybara.domain.util.rebuildSchedule
+import java.util.Calendar
 
 
 class GetScheduleUseCase(
@@ -12,7 +14,7 @@ class GetScheduleUseCase(
 ) {
     class UnRegisteredUserException : Exception()
 
-    fun invoke(): List<Schedule> {
+    fun invoke(): Schedule {
 
         val uid: String? = localStorage.getUid();
 
@@ -33,6 +35,7 @@ class GetScheduleUseCase(
             return rebuildSchedule(
                 schedule,
                 week,
+                DateTime(Calendar.getInstance())
             )
 
         } catch (e: Repository.UnavailableRepositoryException) {

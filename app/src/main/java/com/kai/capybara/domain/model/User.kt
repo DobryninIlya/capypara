@@ -6,22 +6,22 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class User(
 
-    var uid: String? = null,
-    var token: String? = null,
-    var device_tag: String? = "device_tag",
+    var uid: String = "",
+    var token: String = "",
+    var device_tag: String = "device_tag",
     var groupName: Int = 0,
     var createDate: CreateDate? = CreateDate(),
-    var faculty: String? = null,
-    var id_card: Int? = null,
-    var name: String? = null,
+    var faculty: String = "",
+    var id_card: Int = 0,
+    var name: String = "",
 
     )
 
 @Serializable
 data class CreateDate(
 
-    @SerialName("Time") var Time: String? = null,
-    @SerialName("Status") var Status: Int? = null,
-    @SerialName("InfinityModifier") var InfinityModifier: Int? = null
+    var Time: String? = null,
+    var Status: Int? = null,
+    var InfinityModifier: Int? = null
 
 )

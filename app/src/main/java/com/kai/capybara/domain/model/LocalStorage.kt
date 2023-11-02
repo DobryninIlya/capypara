@@ -9,7 +9,7 @@ interface LocalStorage {
 
     fun saveSchedule(schedule: Schedule)
 
-    fun getSchedule(): List<Schedule>
+    fun getSchedule(): Schedule?
     fun saveGroupName(groupName: Int)
     fun getGroup(): Group
 

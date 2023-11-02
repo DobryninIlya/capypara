@@ -8,11 +8,7 @@ class GetScheduleFromLocalUseCase(
 ) {
     class ScheduleUnavailableException : Exception()
 
-    fun invoke(): List<Schedule> {
-        val schedule = localStorage.getSchedule()
-
-        if (schedule.isEmpty()) throw ScheduleUnavailableException()
-
-        return schedule
+    fun invoke(): Schedule {
+        return localStorage.getSchedule() ?: throw ScheduleUnavailableException()
     }
 }

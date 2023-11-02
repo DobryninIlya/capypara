@@ -34,7 +34,7 @@ class RepoUnitTest {
     @Before
     fun setUp() {
         val mock = mock<RegisterInterface> {
-            on { getNewUid() } doReturn "F35fxjVYUMdvGbSK8JpkmKPKhv93"
+            on { getNewUid() } doReturn "agIckYf3nXRwwUnLF77o1xiFdUS2"
         }
 
         repo = RepositoryImpl(
@@ -58,6 +58,7 @@ class RepoUnitTest {
     fun get_schedule_test() {
         val group = repo.getGroup(4207)
         val schedule = repo.getSchedule(group)
+        println(schedule)
         assert(schedule.monday[0].dayDate != "")
     }
 

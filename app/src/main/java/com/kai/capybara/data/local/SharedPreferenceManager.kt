@@ -27,7 +27,7 @@ class SharedPreferenceManager(context: Context) : LocalStorage {
         TODO("Not yet implemented")
     }
 
-    override fun getSchedule(): List<Schedule> {
+    override fun getSchedule(): Schedule {
 
         return TODO("Provide the return value")
     }

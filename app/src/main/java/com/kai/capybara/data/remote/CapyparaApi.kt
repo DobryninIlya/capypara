@@ -31,7 +31,7 @@ interface CapyparaApi {
     @GET("/api/week")
     fun getWeek(): Call<ResultWrapper<Week>>
 
-    @HTTP(method = "GET", path="/api/token", hasBody = true)
+    @POST("/api/token")
     fun registerUser(@Body request: RegisterUserRequest): Call<ResultWrapper<Token>>
 
     companion object {
