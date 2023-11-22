@@ -10,7 +10,8 @@ class UserRemote(request: Request): Remote(request) {
     fun register(user: User) =
         processResponse(request.registerUser(RegisterUserRequest(user))).result.token
 
-    fun isValidToken(token: String) =
-        processResponse(request.checkToken)
+    fun isValidToken(token: String) = request.isValidToken(token)
+
+
 
 }

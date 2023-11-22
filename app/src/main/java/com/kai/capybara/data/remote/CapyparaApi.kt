@@ -5,6 +5,7 @@ import com.kai.capybara.domain.model.api.ResultWrapper
 import com.kai.capybara.domain.model.api.Token
 import com.kai.capybara.domain.model.schedule.*
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.kai.capybara.domain.model.User
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Call
@@ -33,6 +34,9 @@ interface CapyparaApi {
 
     @POST("/api/token")
     fun registerUser(@Body request: RegisterUserRequest): Call<ResultWrapper<Token>>
+
+    @POST("/api/token/whoiam")
+    fun getWhoIAm(@Query("token") uid: String): Call<ResultWrapper<User>>
 
     companion object {
         fun get(): CapyparaApi =

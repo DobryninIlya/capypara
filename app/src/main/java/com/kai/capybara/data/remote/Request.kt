@@ -11,6 +11,7 @@ import com.kai.capybara.domain.model.parseResponseError
 import com.kai.capybara.domain.model.schedule.Group
 import com.kai.capybara.domain.model.schedule.ScheduleResult
 import com.kai.capybara.domain.model.schedule.Week
+import com.kai.capybara.domain.use_case.GetScheduleUseCase
 import kotlinx.serialization.json.Json
 import retrofit2.Call
 import retrofit2.http.Body
@@ -28,9 +29,9 @@ class Request {
         }
         return Response.fail(
             parseResponseError(
-                JsonConverter.convertFromString(
+                JsonConverter.convertFromString<Error>(
                     response.errorBody()!!.string()
-                )
+                ).error
             )
         )
     }
@@ -50,6 +51,8 @@ class Request {
     fun registerUser(request: RegisterUserRequest) =
         processResponse(api.registerUser(request).execute())
 
+    fun isValidToken(token: String): Boolean =
+        processResponse(api.getWhoIAm(token).execute()) !is Response.Fail
 
 
 }

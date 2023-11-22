@@ -4,6 +4,8 @@ import com.kai.capybara.data.local.LocalStorages
 import com.kai.capybara.domain.model.DateTime
 import com.kai.capybara.data.remote.Remotes
 import com.kai.capybara.domain.model.Repositories1
+import com.kai.capybara.domain.model.Response
+import com.kai.capybara.domain.model.ResponseErrors
 import com.kai.capybara.domain.model.schedule.Schedule
 import com.kai.capybara.domain.util.rebuildSchedule
 import java.util.Calendar
@@ -27,7 +29,9 @@ class GetScheduleUseCase(
                throw UnRegisteredUserException()
             }
 
-            val schedule = repositories.schedule.get(localStorage.user.getGroup())
+            val groupId = localStorage.user.getGroup().group_id
+
+            val schedule = repositories.schedule.get(groupId!!, uid)
 
             val week = repositories.schedule.getWeek()
 

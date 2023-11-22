@@ -8,12 +8,12 @@ import com.kai.capybara.domain.model.schedule.Schedule
 import com.kai.capybara.domain.model.schedule.Week
 
 
-fun rebuildSchedule(schedule: Schedule, week: Week, currentDate: DateTime): Schedule {
+fun rebuildSchedule(schedule: Schedule, week: Int, currentDate: DateTime): Schedule {
 
     val rebuiltDayLessons: ArrayList<ArrayList<Lesson>> = ArrayList(6)
 
     schedule.daysLessons.forEachIndexed { i, lessons ->
-        rebuiltDayLessons[i] = rebuildDayLessons(lessons, week.week_parity, currentDate)
+        rebuiltDayLessons[i] = rebuildDayLessons(lessons, week, currentDate)
     }
 
     return Schedule(rebuiltDayLessons)
