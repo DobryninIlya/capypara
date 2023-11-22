@@ -4,14 +4,9 @@ import com.kai.capybara.domain.model.schedule.Schedule
 import com.kai.capybara.domain.model.schedule.Group
 
 interface LocalStorage {
-    fun saveToken(uid: String)
-    fun getUid(): String?
+    fun getString(key: String): String?
+    fun putString(key: String, value: String)
 
-    fun saveSchedule(schedule: Schedule)
-
-    fun getSchedule(): Schedule?
-    fun saveGroupName(groupName: Int)
-    fun getGroup(): Group
-
-
+    fun getInt(key: String): Int
+    fun putInt(key: String, value: Int)
 }

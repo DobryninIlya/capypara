@@ -1,11 +1,11 @@
 package com.kai.capybara.domain.use_case
 
 import com.kai.capybara.domain.model.LocalStorage
-import com.kai.capybara.domain.model.Repository
+import com.kai.capybara.domain.model.Repositories
 import com.kai.capybara.domain.model.User
 
 class RegisterByGroupNameUseCase(
-    private val repository: Repository,
+    private val repository: Repositories,
     private val localStorage: LocalStorage,
 ) {
 
@@ -29,7 +29,7 @@ class RegisterByGroupNameUseCase(
 
             return user
 
-        } catch (_: Repository.UnavailableRepositoryException) {
+        } catch (_: Repositories.UnavailableRepositoryException) {
             throw RegistrationUnavailableException()
         }
 

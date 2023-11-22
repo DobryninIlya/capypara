@@ -9,35 +9,22 @@ import com.kai.capybara.domain.model.schedule.Group
 
 class SharedPreferenceManager(context: Context) : LocalStorage {
 
-    private val uidKey = context.getString(R.string.preference_uid_key)
-
     private val sharedPreference: SharedPreferences = context.getSharedPreferences(
         context.getString(R.string.preference_file_key),
         Context.MODE_PRIVATE
     )
 
-    override fun saveToken(uid: String) =
-        sharedPreference.edit().putString(uidKey, uid).apply()
 
-    override fun getUid(): String? {
-        return sharedPreference.getString(uidKey, "")
-    }
+    override fun putString(key: String, value: String) =
+        sharedPreference.edit().putString(key, value).apply()
 
-    override fun saveSchedule(schedule: Schedule) {
-        TODO("Not yet implemented")
-    }
 
-    override fun getSchedule(): Schedule {
+    override fun getString(key: String): String? =
+        sharedPreference.getString(key, null)
 
-        return TODO("Provide the return value")
-    }
 
-    override fun saveGroupName(groupName: Int) {
-        TODO("Not yet implemented")
-    }
+    override fun putInt(key: String, value: Int) =
+        sharedPreference.edit().putInt(key, value).apply()
 
-    override fun getGroup(): Group {
-        TODO("Not yet implemented")
-    }
-
+    override fun getInt(key: String): Int = sharedPreference.getInt(key, -1)
 }

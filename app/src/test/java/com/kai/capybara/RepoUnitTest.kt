@@ -1,9 +1,6 @@
 package com.kai.capybara
 
-import androidx.core.content.res.TypedArrayUtils.getText
 import com.kai.capybara.data.remote.CapyparaApi
-import com.kai.capybara.data.remote.FirebaseManager
-import com.kai.capybara.data.remote.RepositoryImpl
 import com.kai.capybara.domain.model.RegisterInterface
 import com.kai.capybara.domain.model.User
 import com.kai.capybara.domain.model.schedule.EVEN
